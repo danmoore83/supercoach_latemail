@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "timestamp": "2017-04-29T04:00:00Z",
+    "title": "Gold Coast Titans vs Newcastle Knights",
+    "matchid": 5363,
+    "matchdate": "2017-04-29T05:00:00Z",
+    "matchcode": "GLD-NEW",
+    "home": {
+      "name": "Gold Coast Titans",
+      "comments": "Updated Titans: Dale Copley, Chris Grevsmuhl and Karl Lawton are all out injured. Tyronne Roberts-Davis returns to the backline and Kane Elgey and Pat Vaivai join the bench. Pat Politoni and Alex Brimson drop out."
+    },
+    "away": {
+      "name": "Newcastle Knights",
+      "comments": "Updated Knights: Jaelen Feeney comes into the starting side at halfback, with Sione Mata'utia returning to the second row. Luke Yates starts at lock for the injured Mitchell Barnett. Joe Wardle returns on the bench. Pauli Pauli and Lachlan Fitzgibbon drop out."
+    }
+  }
+]
