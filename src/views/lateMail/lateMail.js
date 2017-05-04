@@ -8,28 +8,35 @@ import {
     ScrollView,
     ListView,
     TouchableHighlight,
-    Navigator
+    Navigator,
+    NavigatorIOS
 } from 'react-native';
 
 import RefreshableList from '../../components/refreshableList.js';
 
 import LateMailItem from './lateMailItem.js';
 
-function _renderRow(rowData) {
+function _renderRow(data) {
     //return <Text style={{ color: 'purple' }}>{rowData}</Text>;
     const navigator = this.props.navigator;
+    const nextRoute = {
+      component: LateMailItem,
+      title: data.matchcode,
+      passProps: { data }
+    };
 
     const onPress = () => {
         console.log(this, this.props);
-        navigator.push({id: 'foo', data: rowData});
+        //navigator.push({id: 'foo', data: rowData});
+        navigator.push(nextRoute)
     };
 
     return (
         <TouchableHighlight
             onPress={onPress}>
             <View>
-                <Text>{rowData.title}</Text>
-                <Text>{rowData.matchdate}</Text>
+                <Text>{data.title}</Text>
+                <Text>{data.matchdate}</Text>
             </View>
         </TouchableHighlight>
     );
@@ -66,16 +73,20 @@ class LateMailList extends RefreshableList {
 
 
 class LateMail extends Component {
-
+    /*
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        navigator: PropTypes.object.isRequired,
+    };
+*/
     render () {
-        console.log('this.props.navigator', this.props.navigator)
+        // console.log('this.props.navigator', this.props.navigator)
 
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         console.log('LateMail props', this.props)
 
         return (
             <View>
-                <Text style={{ fontSize:30, marginTop: 30, textAlign: 'center', backgroundColor: 'transparent', color:'#ccc' }}>Late Mail</Text>
                 <RefreshableList
                     style={{ backgroundColor: 'green', height: '40%' }}
                     // dataSource={ ds.cloneWithRows(['lorem', 'ipsum', 'dolor', 'sit', 'amet']) }
@@ -99,8 +110,6 @@ class LateMail extends Component {
                         refreshControlTitle: 'Updating coach nightmares',
                         refreshControlTitleColor: '#ddd'
                     }}
-
-                    // renderRow={(rowData) => <Text>{rowData}</Text>}
                 />
 
             </View>
@@ -108,58 +117,19 @@ class LateMail extends Component {
     }
 }
 
-var NavigationBarRouteMapper = {
-
-  LeftButton: function(route, navigator, index, navState) {
-    if (index === 0) {
-      return null;
-    }
-
-    var previousRoute = navState.routeStack[index - 1];
-    return (
-        <Text>Prev</Text>
-    );
-  },
-
-  RightButton: function(route, navigator, index, navState) {
-    return (
-        <Text>Right</Text>
-    );
-  },
-
-  Title: function(route, navigator, index, navState) {
-    return (
-        <Text>Title</Text>
-    );
-  },
-
-};
-
 class LateMailNavigator extends Component {
-
-    renderScene (route, nav) {
-        console.log(route, nav)
-
-        const routes = {
-            'latemail': <LateMail navigator={nav} />,
-            'foo': <LateMailItem data={route.data} />
-        };
-
-        return routes[route.id];
-    }
 
     render () {
 
         return (
-            <Navigator
+            <NavigatorIOS
                 // style={styles.container}
-                initialRoute={{ id: 'latemail' }}
-                renderScene={this.renderScene}
-                navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                    />
-                }
+                initialRoute={{
+                    title: 'Late Mail',
+                    component: LateMail,
+                    passProps: { myProp: 'foo' }
+                }}
+                style={{flex: 1}}
                 />
         );
     }

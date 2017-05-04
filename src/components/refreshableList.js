@@ -35,7 +35,7 @@ class RefreshableList extends Component {
     }
 
     _onRefresh() {
-        console.log('onRefresh', this)
+        // console.log('onRefresh', this)
         return _loadData.bind(this).call();
     }
 

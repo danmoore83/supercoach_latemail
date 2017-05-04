@@ -17,7 +17,7 @@ export default class LateMailItem extends Component {
     }
     render() {
         return (
-            <View>
+            <View style={{marginTop: 60, padding: 20}}>
                 <Text>{this.state.title}</Text>
                 <Text>{this.state.matchdate}</Text>
                 <Text>{this.state.home.name}</Text>
