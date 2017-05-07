@@ -22,7 +22,7 @@ class TabBarExample extends React.Component {
     static displayName = 'TabBarExample';
 
     state = {
-        selectedTab: 'redTab',
+        selectedTab: 'lateMail',
         notifCount: 0,
         presses: 0,
     }

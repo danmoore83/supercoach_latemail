@@ -29,8 +29,9 @@ class RefreshableList extends Component {
             const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
             this.state.dataSource = ds.cloneWithRows([]);
         }
+    }
 
-        //if (!props.dataUrl) throw new Error('no dataUrl provided');
+    componentDidMount() {
         this._onRefresh();
     }
 
@@ -41,6 +42,10 @@ class RefreshableList extends Component {
 
     _renderRow(rowData) {
         return this.props.renderRow ? this.props.renderRow(rowData) : <Text>{rowData}</Text>;
+    }
+
+    _renderSeparator(data) {
+        return this.props.renderSeparator ? this.props.renderSeparator(data) : <Text>{rowData}</Text>;
     }
 
     fetchData() {
@@ -72,12 +77,15 @@ class RefreshableList extends Component {
                         tintColor={refreshControlTintColor}
                         title={refreshControlTitle}
                         titleColor={refreshControlTitleColor}
-                        navigator={this.props.navigator}
+                        // navigator={this.props.navigator}
+
                     />
                 }
                 dataSource={this.state.dataSource}
                 renderRow={ this._renderRow.bind(this) }
+                renderSeparator={ this._renderSeparator.bind(this) }
                 style={this.props.style}
+                enableEmptySections={true}
             />
         );
     }

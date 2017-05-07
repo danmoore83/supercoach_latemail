@@ -9,23 +9,41 @@ import {
     StyleSheet
 } from 'react-native';
 
-export default class LateMailItem extends Component {
-    constructor(props) {
-        super(props);
-        console.log('LateMailItem props', props);
-        this.state = props.data || {};
-    }
+class LateMailItem extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.matchcode.replace('-', ' vs ')}`,
+    });
+
     render() {
+        const { params } = this.props.navigation.state;
+
+        console.log(params)
+
         return (
-            <View style={{marginTop: 60, padding: 20}}>
-                <Text>{this.state.title}</Text>
-                <Text>{this.state.matchdate}</Text>
-                <Text>{this.state.home.name}</Text>
-                <Text>{this.state.home.comments}</Text>
-                <Text>{this.state.away.name}</Text>
-                <Text>{this.state.away.comments}</Text>
+            <View style={styles.view}>
+                <Text style={styles.title}>{params.title}</Text>
+                <Text style={styles.matchdate}>{params.matchdate}</Text>
+                <Text style={styles.teamname}>{params.home.name}</Text>
+                <Text style={styles.comments}>{params.home.comments}</Text>
+                <Text style={styles.teamname}>{params.away.name}</Text>
+                <Text style={styles.comments}>{params.away.comments}</Text>
             </View>
 
         );
     }
 }
+
+
+const styles = StyleSheet.create({
+    view: {
+        padding: 20
+    },
+    title: {
+        fontSize: 20
+    },
+    matchdate: {
+        fontSize: 10
+    }
+});
+
+export default LateMailItem;
