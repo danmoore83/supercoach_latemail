@@ -13,7 +13,6 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 import RefreshableList from '../../components/refreshableList.js';
-
 import LateMailItem from './lateMailItem.js';
 
 function _renderRow(data) {
@@ -49,7 +48,13 @@ class LateMail extends Component {
         return (
 
                 <View style={styles.view}>
-                    <Image source={require('../../assets/img/field.jpeg')} style={styles.image} />
+                    <View style={styles.imageContainer}>
+                        <Image
+                            // resizeMode={Image.resizeMode.contain}
+                            resizeMode={Image.resizeMode.contain}
+                            source={require('../../assets/img/IMG_0638.jpg')}
+                            style={styles.image} />
+                    </View>
                     <RefreshableList
                         style={styles.list}
                         // dataSource={ ds.cloneWithRows(['lorem', 'ipsum', 'dolor', 'sit', 'amet']) }
@@ -58,9 +63,9 @@ class LateMail extends Component {
                         renderSeparator={(sectionId, rowId) => <View key={rowId}><View style={[styles.separator, styles.separatorTop]} /><View style={[styles.separator, styles.separatorBottom]} /></View>}
                         // navigator={this.props.navigator}
                         refreshControl = {{
-                            refreshControlTintColor:'blue',
-                            refreshControlTitle: 'Updating coach failures',
-                            refreshControlTitleColor: '#ff00ff'
+                            refreshControlTintColor:'#999',
+                            refreshControlTitle: 'Checking for new data',
+                            refreshControlTitleColor: '#333'
                         }}
                         >
                     </RefreshableList>
@@ -82,7 +87,8 @@ const styles = StyleSheet.create({
     list: {
         // backgroundColor: 'rgba(0,0,0,0.7)',
         backgroundColor: 'rgba(255, 255, 255,0.8)',
-        zIndex:2
+        zIndex:2,
+        flex: 1
     },
     row: {
         paddingHorizontal: 20,
@@ -92,9 +98,19 @@ const styles = StyleSheet.create({
         // color: '#FFFFFF',
         color: '#000000'
     },
-    image: {
+    imageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        flex: 1,
         position:'absolute',
-        zIndex:-1
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    image: {
+        flex: 1,
     },
     heading: {
         fontSize: 16
@@ -105,7 +121,7 @@ const styles = StyleSheet.create({
     },
     separatorTop: {
         // backgroundColor: '#000',
-        backgroundColor: 'rgba(0,0,0,0.2)',
+        backgroundColor: 'rgba(100,100,100,0.5)',
     },
     separatorBottom: {
         // backgroundColor: '#333',
