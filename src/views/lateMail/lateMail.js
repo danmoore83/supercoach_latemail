@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
+import Timeframe from 'react-timeframe';
 
 import RefreshableList from '../../components/refreshableList.js';
 import LateMailItem from './lateMailItem.js';
+
 
 function _renderRow(data) {
     const { navigate } = this.props.navigation;
@@ -22,15 +24,42 @@ function _renderRow(data) {
         navigate('LateMailItem', data);
     };
 
-    return (
+    return data.matchcode.match(/BRI\-PEN|SOU\-MAN/) ? (
         <TouchableHighlight
             onPress={onPress}>
             <View style={styles.row}>
                 <Text style={[styles.text, styles.heading]}>{data.title}</Text>
-                <Text style={styles.text}>{data.matchdate}</Text>
+
+                <Timeframe
+                    endsAt={data.matchdate}
+                    onUpdate={function(time) {
+                        this.setState({time: time});
+                    }}
+                    onRender={function() {
+                        const
+                            state = (this.state || {}),
+                            time = state.time,
+                            values = [];
+
+                        if (state.complete) {
+                            values.push('Complete');
+                        } else if (timer) {
+                            if (time.days) values.push(`${time.days} ${time.days === 1 ? 'day' : 'days'}`);
+                            if (time.hours) values.push(`${time.hours} ${time.hours === 1 ? 'hour' : 'hours'}`);
+
+                            values.push(`${time.minutes} ${time.minutes === 1 ? 'minute' : 'minutes'}`);
+                            values.push(`${time.seconds} ${time.seconds === 1 ? 'second' : 'seconds'}`);
+                        }
+
+                        return (
+                            <Text style={styles.timer}>{values.join(', ')}</Text>
+                        );
+                    }}
+                    urgent={30000}>
+                </Timeframe>
             </View>
         </TouchableHighlight>
-    );
+    ) : null;
 }
 
 
@@ -43,7 +72,6 @@ class LateMail extends Component {
     render () {
 
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        console.log('LateMail props', this.props)
 
         return (
 
@@ -58,7 +86,7 @@ class LateMail extends Component {
                     <RefreshableList
                         style={styles.list}
                         // dataSource={ ds.cloneWithRows(['lorem', 'ipsum', 'dolor', 'sit', 'amet']) }
-                        dataUrl={'https://api.myjson.com/bins/1egokl'}
+                        dataUrl={'https://api.myjson.com/bins/hohrl'}
                         renderRow={_renderRow.bind(this)}
                         renderSeparator={(sectionId, rowId) => <View key={rowId}><View style={[styles.separator, styles.separatorTop]} /><View style={[styles.separator, styles.separatorBottom]} /></View>}
                         // navigator={this.props.navigator}
@@ -126,6 +154,10 @@ const styles = StyleSheet.create({
     separatorBottom: {
         // backgroundColor: '#333',
         backgroundColor: 'rgba(255, 255, 255, 1)'
+    },
+    timer: {
+        fontSize: 11,
+        color: 'maroon'
     }
 });
 
